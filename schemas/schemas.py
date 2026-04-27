@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import datetime
 
 class OptionBase(BaseModel):
@@ -10,13 +10,13 @@ class OptionResponse(OptionBase):
     model_config = { "from_attributes": True }
 
 class PollCreate(BaseModel):
-    question: str
+    question: str = Field(min_length=3)
     options: list[str]
     closes_at: datetime | None = None
 
 class PollResponse(BaseModel):
     id: int
-    question: str
+    question: str = Field(min_length=3)
     status: str
     closes_at: datetime | None = None
 
