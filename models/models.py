@@ -8,7 +8,7 @@ class Poll(Base):
     question = Column(String, nullable=False)
     closes_at = Column(DateTime, nullable=True) 
     
-    options = relationship("Option", back_populates="poll", cascade="all, delete-orphan") # le paramètre "cascade" permet de supprimer les options associées lorsqu'un sondage est supprimé
+    options = relationship("Option", back_populates="poll", cascade="all, delete-orphan") # le paramètre cascade="all, delete-orphan" permet de supprimer les options associées lorsqu'un sondage est supprimé
     votes = relationship("Vote", back_populates="poll", cascade="all, delete-orphan")
 
 class Option(Base):

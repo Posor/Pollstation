@@ -20,14 +20,14 @@ def get_polls(db: Session):
     return db.query(Poll).all()
 
 def get_poll_by_id(db: Session, poll_id: int):
-    return db.query(Poll).filter(Poll.id == poll_id).first()
+    return db.query(Poll).filter(Poll.id == poll_id).first() # utilisation de .first() afin de récupérer le premier résultat du filtre
 
 def delete_poll(db: Session, poll: Poll):
     db.delete(poll)
     db.commit()
 
 def get_option_by_id(db: Session, option_id: int):
-    return db.query(Option).filter(Option.id == option_id).first()
+    return db.query(Option).filter(Option.id == option_id).first() # utilisation de .first() afin de récupérer le premier résultat du filtre
 
 def get_vote_by_token_and_poll(db: Session, voter_token: str, poll_id: int):
     return db.query(Vote).filter(Vote.voter_token == voter_token, Vote.poll_id == poll_id).first()
@@ -40,7 +40,7 @@ def create_vote(db: Session, poll_id: int, option_id: int, voter_token: str):
     return db_vote
 
 def count_polls(db: Session):
-    return db.query(Poll).count()
+    return db.query(Poll).count() # utilisation de .count() afin de compter le nombre de résultats retournés par la requête 
 
 def count_votes(db: Session):
-    return db.query(Vote).count()
+    return db.query(Vote).count() # utilisation de .count() afin de compter le nombre de résultats retournés par la requête 
