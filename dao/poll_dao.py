@@ -16,8 +16,13 @@ def create_poll(db: Session, poll_data: PollCreate):
     db.refresh(db_poll)
     return db_poll
 
-def get_polls(db: Session):
-    return db.query(Poll).all()
+def get_polls(db: Session, skip: int = 0, limit: int | None = 10): # Utilisation de skip et limit pour répondre au bonus de pagination
+    query = db.query(Poll).offset(skip) # Si skip est à 0 (par défaut), on commence à partir du premier résultat
+    
+    if limit is not None: # Si limit est à None, on ne limite pas le nombre de résultats retournés
+        query = query.limit(limit)
+        
+    return query.all()
 
 def get_poll_by_id(db: Session, poll_id: int):
     return db.query(Poll).filter(Poll.id == poll_id).first() # utilisation de .first() afin de récupérer le premier résultat du filtre

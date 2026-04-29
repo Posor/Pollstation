@@ -12,8 +12,13 @@ def create_poll(data: PollCreate, db: Session = Depends(get_db)):
     return poll_service.create_poll(db, data)
 
 @router.get("/polls", response_model=list[PollResponse], status_code=200)
-def get_polls(status: str | None = None, db: Session = Depends(get_db)):
-    return poll_service.get_polls(db, status)
+def get_polls(
+    status: str | None = None,
+    skip: int = 0, # Ajout de skip pour la pagination
+    limit: int = 10, # Ajout de limit pour la pagination
+    db: Session = Depends(get_db)
+    ):
+    return poll_service.get_polls(db, status, skip, limit) # Passage de skip et limit pour la pagination bonus
 
 @router.get("/polls/{poll_id}", response_model=PollDetailResponse, status_code=200)
 def get_poll(poll_id: int, db: Session = Depends(get_db)):
