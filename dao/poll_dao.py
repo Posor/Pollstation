@@ -16,9 +16,18 @@ def create_poll(db: Session, poll_data: PollCreate):
     db.refresh(db_poll)
     return db_poll
 
-def get_polls(db: Session, skip: int = 0, limit: int | None = 10): # Utilisation de skip et limit pour répondre au bonus de pagination
-    query = db.query(Poll).offset(skip) # Si skip est à 0 (par défaut), on commence à partir du premier résultat
+def get_polls(db: Session, skip: int = 0, limit: int | None = 10, sort: str | None = "desc"): # Utilisation de skip, limit et sort pour répondre au bonus de pagination et de tri
     
+    query = db.query(Poll)
+    
+    # tri des résultats (bonus)
+    if sort == "asc":
+        query = query.order_by(Poll.id.asc())
+    else:
+        query = query.order_by(Poll.id.desc()) # Par défaut, on trie du plus récent au plus ancien
+    
+    # pagination des résultats (bonus), utilisation de .offset() et .limit() de SQLAlchemy
+    query = query.offset(skip) # Si skip est à 0 (par défaut), on commence à partir du premier résultat
     if limit is not None: # Si limit est à None, on ne limite pas le nombre de résultats retournés
         query = query.limit(limit)
         

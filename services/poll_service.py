@@ -22,9 +22,14 @@ def create_poll(db: Session, poll_data: PollCreate):
             
     return poll_dao.create_poll(db, poll_data)
 
-def get_polls(db: Session, status: str = None, skip: int = 0, limit: int = 10):
-    polls = poll_dao.get_polls(db, skip=skip, limit=limit)  # Utilisation de skip et limit pour répondre au bonus de pagination
+def get_polls(db: Session, status: str = None, skip: int = 0, limit: int = 10, sort: str = "desc"):
+    polls = poll_dao.get_polls(db, skip=skip, limit=limit, sort=sort)  # Utilisation de skip, limit et sort pour répondre au bonus de pagination et de tri
     result = []
+    
+    # PS : Le filtrage par statut est effectué après les requêtes en Python donc,
+    # si un filtre 'status' est appliqué, la taille de la liste retournée
+    # peut être inférieure à la 'limit'.
+
     for poll in polls:
         poll_status = get_current_status(poll.closes_at)
         if status and poll_status != status:
@@ -107,7 +112,7 @@ def get_stats(db: Session):
     total_polls = poll_dao.count_polls(db)
     total_votes = poll_dao.count_votes(db)
     
-    polls = poll_dao.get_polls(db, limit=None) # Récupération de tous les sondages
+    polls = poll_dao.get_polls(db, limit=None, sort="desc") # Récupération de tous les sondages, triés du plus récent au plus ancien (bonus)
     top_poll = None
     max_votes = -1
     
