@@ -1,6 +1,10 @@
 # PollStation - API REST de Sondages Anonymes
 
-PollStation est une API REST développée dans le cadre du module "Applications distribuées". Elle permet de créer des sondages, de collecter des votes anonymes (via UUID) et de consulter des résultats agrégés.
+## À propos du projet
+
+Ce projet a été réalisé dans le cadre du module Applications distribuées durant le semestre 8 à Télécom Saint-Étienne. Il porte sur pollstation, qui est une API REST. Elle permet de créer des sondages, de collecter des votes anonymes (via token unique) et de consulter des résultats agrégés.
+
+L'application repose sur une architecture en couches (Controller / Service / DAO) avec FastAPI, SQLAlchemy et Pydantic pour la validation des données. Elle intègre une gestion des erreurs (400, 404, 409, 422), ainsi que trois fonctionnalités : la pagination et le tri des résultats, et une suite de tests automatisés avec Pytest.
 
 > L'API est accessible sur `http://localhost:8000`.
 
@@ -95,3 +99,7 @@ Les tests vérifient :
 - Le respect des règles métier (minimum 2 options par sondage).
 - La robustesse de la validation Pydantic (longueur de question).
 - Le fonctionnement mathématique de la limite de pagination.
+
+---
+
+> *Projet réalisé par Paulin Gasquet*
